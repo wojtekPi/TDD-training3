@@ -8,15 +8,15 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class StringCalculatorTest {
 
-    private StringCalculator testedObject;
-
-    @Before
-    public void setUp() throws Exception {
-        testedObject = new StringCalculator();
-    }
-
-    @Test
-    public void shouldCreateObject() throws Exception {
-        assertThat(testedObject).isNotNull();
-    }
+//    private StringCalculator testedObject;
+//
+//    @Before
+//    public void setUp() throws Exception {
+//        testedObject = new StringCalculator();
+//    }
+//
+//    @Test
+//    public void shouldCreateObject() throws Exception {
+//        assertThat(testedObject).isNotNull();
+//    }
 }
