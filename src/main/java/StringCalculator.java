@@ -5,10 +5,16 @@ public class StringCalculator {
     public int Add(String numbers) {
         if (isEmpty(numbers)) {
             return 0;
-        } else if (numbers.length() != 1) {
-            return calculation(numbers);
-        } else
-            return Integer.valueOf(numbers);
+        }
+        try {
+            if (numbers.length() != 1) {
+
+                return calculation(numbers);
+            } else
+                return Integer.valueOf(numbers);
+        } catch (NumberFormatException exception) {
+            throw new NumberFormatException("Only number and commas are allowed");
+        }
     }
 
     private int calculation(String numbers) {

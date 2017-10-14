@@ -84,6 +84,4 @@ public class StringCalculatorTest {
 
         testedObject.Add("a");
     }
-
-
 }
