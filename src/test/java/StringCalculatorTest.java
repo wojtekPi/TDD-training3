@@ -51,5 +51,5 @@ public class StringCalculatorTest {
     @Test(expected = NumberFormatException.class)
     public void shouldThrowNumberFormatExceptionWhenParameterIsStupid() throws Exception {
         testedObject.Add("A");
-    }
+    } //a
 }
