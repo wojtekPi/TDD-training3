@@ -1,23 +1,26 @@
 import java.util.Arrays;
+import java.util.List;
 
 public class StringCalculator {
 
     public static final String EMPTY_STRING = "";
 
     public int Add(String numbers) {
-        String[] arrayOfNumbers = numbers.split(",");
         if (isEmpty(numbers)) {
             return 0;
         }
-        return iterateAndSum(arrayOfNumbers);
-    }
+        int result=0;
 
-    private int iterateAndSum(String[] arrayOfNumbers) {
-        int result = Arrays.stream(arrayOfNumbers).mapToInt(s -> Integer.parseInt(s)).sum();
+
+        List<String> numberList = Arrays.asList(numbers.split(","));
+        for (String s : numberList) {
+            result += Integer.valueOf(s);
+        }
         return result;
     }
 
     private boolean isEmpty(String numbers) {
         return EMPTY_STRING.equals(numbers);
     }
+
 }

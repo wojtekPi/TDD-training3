@@ -1,3 +1,4 @@
+
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -6,11 +7,14 @@ import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 /**
  * Tdd training on 14.10.17.
  */
 @RunWith(JUnitParamsRunner.class)
+
 public class StringCalculatorTest {
+
 
     private StringCalculator testedObject;
 
@@ -24,17 +28,13 @@ public class StringCalculatorTest {
         assertThat(testedObject).isNotNull();
     }
 
-    @Test
-    public void shouldReturnZeroWhenEmptyStringPassed() {
-        int result = testedObject.Add("");
-
-        assertThat(result).isEqualTo(0);
-    }
     private Object[][] parametersForTestingNonStandardInput() {
         return new Object[][]{
-                {"1",1},
-                {"2",2},
-                {"1,1,31,1,1,41",76},
+                {"", 0},
+                {"0", 0},
+                {"1", 1},
+                {"2", 2},
+                {"1,2,3,4,5,6", 21}
         };
     }
 
@@ -48,8 +48,15 @@ public class StringCalculatorTest {
         assertThat(result).isEqualTo(expectedOutput);
     }
 
-    @Test(expected = NumberFormatException.class)
-    public void shouldThrowNumberFormatExceptionWhenParameterIsStupid() throws Exception {
-        testedObject.Add("A");
+    @Test
+    public void shouldReturnSumOfTwoElements() {
+        int result = testedObject.Add("2,4");
+        assertThat(result).isEqualTo(6);
+    }
+
+    @Test
+    public void shouldReturnSumOfThreeElements() {
+        int result = testedObject.Add("2,4,35");
+        assertThat(result).isEqualTo(41);
     }
 }
