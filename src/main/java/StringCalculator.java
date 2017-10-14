@@ -2,7 +2,7 @@ public class StringCalculator {
 
     public static final String EMPTY_STRING = "";
 
-    public int Add(String numbers) throws IllegalArgumentException {
+    public int Add(String numbers) {
         if (isEmpty(numbers)) {
             return 0;
         } else if (numbers.length() != 1) {
