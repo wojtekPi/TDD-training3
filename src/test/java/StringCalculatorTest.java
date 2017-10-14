@@ -1,7 +1,9 @@
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tdd training on 14.10.17.
  */
 @RunWith(JUnitParamsRunner.class)
+
 public class StringCalculatorTest {
 
     private StringCalculator testedObject;
@@ -65,6 +68,25 @@ public class StringCalculatorTest {
         int result = testedObject.Add(input);
 
         assertThat(result).isEqualTo(expectedOutput);
+    }
+
+    private Object[][] parametersForTestingIllegalArgumentException() {
+        return new Object[][] {
+                {"1,"},
+                {"\n3"},
+                {"13\n\n"}
+        };
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+    @Test
+    @Parameters(method = "parametersForTestingIllegalArgumentException")
+    public void shouldThrowIllegalArgumentException(String input) throws IllegalArgumentException {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Wrong input syntax!");
+
+        testedObject.Add(input);
     }
 
 
