@@ -49,7 +49,7 @@ public class StringCalculatorTest {
                 {"1,2,3", 6},
                 {"1,2,3,5",11},
                 {"1\n5", 6},
-                {"10,\n\n", 10}
+                {"1\n5,1,6", 13}
         };
     }
 
@@ -62,5 +62,4 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(expectedOutput);
     }
-
 }

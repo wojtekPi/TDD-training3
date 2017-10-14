@@ -8,11 +8,7 @@ public class StringCalculator {
         }
         int sum = 0;
         for (String number : numbers.split("[,\\n]")) {
-            try {
-                sum += Integer.valueOf(number);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Wrong argument provided!");
-            }
+            sum += Integer.valueOf(number);
         }
         return sum;
     }
