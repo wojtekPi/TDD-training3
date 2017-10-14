@@ -30,7 +30,7 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(0);
     }
-    private Object[][] parametersForTestingNonStandardInput() {
+    private Object[][] parametersForTestingNonStandardInputt() {
         return new Object[][]{
                 {"1",1},
                 {"2",2},
@@ -39,7 +39,7 @@ public class StringCalculatorTest {
     }
 
     @Test
-    @Parameters(method = "parametersForTestingNonStandardInput")
+    @Parameters(method = "parametersForTestingNonStandardInputt")
     public void shouldReturnCorrectValueWhenNonStandardInputPassed(
             String input, int expectedOutput
     ) {

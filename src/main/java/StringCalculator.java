@@ -17,6 +17,7 @@ public class StringCalculator {
         return result;
     }
 
+
     private boolean isEmpty(String numbers) {
         return EMPTY_STRING.equals(numbers);
     }
