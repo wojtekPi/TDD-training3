@@ -8,7 +8,6 @@ public class StringCalculator {
         if (isEmpty(numbers)) {
             return 0;
         }
-
         try {
             String[] arrayOfNumbers = numbers.split("[,\\n]");
             for (int i = 0; i < arrayOfNumbers.length; i++)

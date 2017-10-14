@@ -15,6 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JUnitParamsRunner.class)
 public class StringCalculatorTest {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     private StringCalculator testedObject;
 
     @Rule
@@ -54,6 +57,7 @@ public class StringCalculatorTest {
                 {"1,3,4,1", 9},
                 {"23,14,0,1", 38},
                 {"1\n2,3", 6}
+
         };
     }
 
@@ -78,6 +82,7 @@ public class StringCalculatorTest {
     public void shouldThrowCorrectExceptionMessageWhenIncorrectFormat(){
         thrown.expect(NumberFormatException.class);
         thrown.expectMessage("Only numbers with commas are allowed!");
+
         testedObject.Add("a");
     }
 }
