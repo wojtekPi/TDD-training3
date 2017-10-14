@@ -55,7 +55,6 @@ public class StringCalculatorTest {
         assertThat(result).isEqualTo(expectedOutput);
     }
 
-
     @Test
     public void shouldThrowNumberFormatExceptionWhenParameterIsStupid() throws Exception {
         expectedException.expect(NumberFormatException.class);

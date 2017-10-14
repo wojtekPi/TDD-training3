@@ -5,18 +5,14 @@ public class StringCalculator {
     public static final String EMPTY_STRING = "";
 
     public int Add(String numbers) throws NumberFormatException {
-        checkIfContrainsOnlyNumbers(numbers);
+        if(numbers.chars().anyMatch(Character::isLetter)){
+            throw new NumberFormatException("How about NO!");
+        }
         String[] arrayOfNumbers = numbers.split("[,\\n]");
         if (isEmpty(numbers)) {
             return 0;
         }
         return iterateAndSum(arrayOfNumbers);
-    }
-
-    private void checkIfContrainsOnlyNumbers(String numbers) {
-        if (!numbers.contains("[0-9]+")) {
-            throw new NumberFormatException("How about NO!");
-        }
     }
 
     private int iterateAndSum(String[] arrayOfNumbers) {
