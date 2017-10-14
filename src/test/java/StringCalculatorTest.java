@@ -32,6 +32,12 @@ public class StringCalculatorTest {
     }
 
     @Test
+    public void shouldReturnThreeWhenOneAndTwoPassed() {
+        int result = testedObject.Add("1,2");
+        assertThat(result).isEqualTo(3);
+    }
+
+    @Test
     @Parameters({"0,0", "1,1", ",0"})
     public void shouldReturnCorrectValueWhenOneNumberPassed(String input,
                                                             int expectedOutput) {
@@ -43,7 +49,11 @@ public class StringCalculatorTest {
     private Object[][] parametersForTestingNonStandardInput() {
         return new Object[][]{
                 {"", 0},
-                {"1", 1}
+                {"1", 1},
+                {"1,2",3},
+                {"5,6",11},
+                {"5,6,7" , 18},
+                {"1,2,3,4",10}
         };
     }
 
