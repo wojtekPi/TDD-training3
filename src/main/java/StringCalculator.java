@@ -4,8 +4,11 @@ public class StringCalculator {
 
     public static final String EMPTY_STRING = "";
 
-    public int Add(String numbers) {
-        String[] arrayOfNumbers = numbers.split("[,\n]");
+    public int Add(String numbers) throws NumberFormatException {
+        if (!numbers.contains("[0-9]+")) {
+            throw new NumberFormatException("How about NO!");
+        }
+        String[] arrayOfNumbers = numbers.split("[,\\n]");
         if (isEmpty(numbers)) {
             return 0;
         }
@@ -16,7 +19,6 @@ public class StringCalculator {
         int result = Arrays.stream(arrayOfNumbers).mapToInt(s -> Integer.parseInt(s)).sum();
         return result;
     }
-
 
     private boolean isEmpty(String numbers) {
         return EMPTY_STRING.equals(numbers);

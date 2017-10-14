@@ -1,7 +1,9 @@
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,6 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class StringCalculatorTest {
 
     private StringCalculator testedObject;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -35,7 +40,8 @@ public class StringCalculatorTest {
                 {"1",1},
                 {"2",2},
                 {"1,1,31,1,1,41",76},
-                {"1,3\n",4}
+                {"1,3\n",4},
+                {"3\n3\n4",10}
         };
     }
 
@@ -49,8 +55,13 @@ public class StringCalculatorTest {
         assertThat(result).isEqualTo(expectedOutput);
     }
 
-    @Test(expected = NumberFormatException.class)
+
+    @Test
     public void shouldThrowNumberFormatExceptionWhenParameterIsStupid() throws Exception {
-        testedObject.Add("A");
+        expectedException.expect(NumberFormatException.class);
+        expectedException.expectMessage("How about NO!");
+        testedObject.Add("W");
     }
+
+
 }
