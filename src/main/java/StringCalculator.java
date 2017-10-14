@@ -15,9 +15,10 @@ public class StringCalculator {
 
 
 
-        String[] tabString = numbers.split("[\n,;//]");
+        String[] tabString = numbers.split("[//\n,;]");
 
         for(int i = 0; i < tabString.length; i++) {
+            if(!tabString[i].isEmpty())
                 result += Integer.valueOf(tabString[i]);
 
         }

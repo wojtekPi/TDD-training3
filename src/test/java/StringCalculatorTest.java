@@ -19,9 +19,6 @@ public class StringCalculatorTest {
 
     private StringCalculator testedObject;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void setUp() throws Exception {
         testedObject = new StringCalculator();
@@ -88,6 +85,5 @@ public class StringCalculatorTest {
         testedObject.Add("a");
         //throw new NumberFormatException();
     }
-        testedObject.Add("a");
-    }
+
 }
