@@ -6,7 +6,15 @@ public class StringCalculator {
         if (isEmpty(numbers)) {
             return 0;
         }
-        return Integer.valueOf(numbers);
+        int sum = 0;
+        for (String number : numbers.split("[,\\n]")) {
+            try {
+                sum += Integer.valueOf(number);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Wrong argument provided!");
+            }
+        }
+        return sum;
     }
 
     private boolean isEmpty(String numbers) {
