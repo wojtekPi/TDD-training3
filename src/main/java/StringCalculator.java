@@ -1,3 +1,4 @@
+<<<<<<< KamilBrzoza
 public class StringCalculator {
     public static final String EMPTY_STRING = "";
     public int Add(String numbers) {
@@ -6,9 +7,6 @@ public class StringCalculator {
         }
         else if (numbers.length()==1)
         return Integer.valueOf(numbers);
-        else if (numbers.length()==3){
-            String[] tab = numbers.split(",");
-            return (Integer.valueOf(tab[0])+Integer.valueOf(tab[1])) ;
         }else {
             Integer res = 0;
             String[] tab = numbers.split(",");
@@ -19,6 +17,7 @@ public class StringCalculator {
             return res;
         }
     }
+
     private boolean isEmpty(String numbers) {
         return EMPTY_STRING.equals(numbers);
     }

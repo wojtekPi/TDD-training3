@@ -1,10 +1,12 @@
 import junitparams.JUnitParamsRunner;
+
 import org.junit.runner.RunWith;
         import junitparams.Parameters;
         import org.junit.Before;
         import org.junit.Test;
         import org.junit.runner.RunWith;
         import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Tdd training on 14.10.17.
  */
@@ -19,6 +21,7 @@ public class StringCalculatorTest {
     public void shouldCreateObject() throws Exception {
         assertThat(testedObject).isNotNull();
     }
+
     @Test
     public void shouldReturnZeroWhenEmptyStringPassed() {
         int result = testedObject.Add("");
@@ -39,6 +42,7 @@ public class StringCalculatorTest {
                 {"14,98", 112},
                 {"14,15,29", 58},
                 {"41,1,12",54}
+
         };
     }
 
@@ -48,6 +52,7 @@ public class StringCalculatorTest {
             String input, int expectedOutput
     ) {
         int result = testedObject.Add(input);
+
         assertThat(result).isEqualTo(expectedOutput);
     }
 
