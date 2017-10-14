@@ -1,7 +1,9 @@
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,6 +13,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JUnitParamsRunner.class)
 public class StringCalculatorTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     private StringCalculator testedObject;
 
@@ -67,5 +72,16 @@ public class StringCalculatorTest {
         assertThat(result).isEqualTo(expectedOutput);
     }
 
+    @Test(expected = NumberFormatException.class)
+    public void shouldThrowExceptionWhenIncorrectFormat(){
+        testedObject.Add("a");
+    }
 
+    @Test
+    public void shouldExceptionContainCorrectMessage() {
+        thrown.expect(NumberFormatException.class);
+        thrown.expectMessage("Only number and commas are allowed");
+
+        testedObject.Add("a");
+    }
 }
