@@ -27,11 +27,14 @@ public class StringCalculatorTest {
         int result = testedObject.Add("");
         assertThat(result).isEqualTo(0);
     }
+
+
     @Test
     @Parameters({"0,0", "1,1", ",0"})
     public void shouldReturnCorrectValueWhenOneNumberPassed(String input,
                                                             int expectedOutput) {
         int result = testedObject.Add(input);
+
         assertThat(result).isEqualTo(expectedOutput);
     }
     private Object[][] parametersForTestingNonStandardInput() {
@@ -55,6 +58,7 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(expectedOutput);
     }
+
 
     @Test
     @Parameters(method = "parametersForTestingNonStandardInput" )
