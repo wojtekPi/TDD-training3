@@ -32,7 +32,7 @@ public class StringCalculatorTest {
     }
 
     @Test
-    @Parameters({"0,0", "1,1", ",0"})
+    @Parameters({"0, 0", "1, 1", ", 0"})
     public void shouldReturnCorrectValueWhenOneNumberPassed(String input,
                                                             int expectedOutput) {
         int result = testedObject.Add(input);
@@ -43,7 +43,9 @@ public class StringCalculatorTest {
     private Object[][] parametersForTestingNonStandardInput() {
         return new Object[][]{
                 {"", 0},
-                {"1", 1}
+                {"1", 1},
+                {"1,2", 3},
+                {"1,3,4,1", 9}
         };
     }
 
