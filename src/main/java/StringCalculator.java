@@ -6,7 +6,11 @@ public class StringCalculator {
         if (isEmpty(numbers)) {
             return 0;
         }
-        return Integer.valueOf(numbers);
+        int sum = 0;
+        for (String number : numbers.split("[,\\n]")) {
+            sum += Integer.valueOf(number);
+        }
+        return sum;
     }
 
     private boolean isEmpty(String numbers) {

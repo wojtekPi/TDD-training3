@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Tdd training on 14.10.17.
@@ -43,7 +44,12 @@ public class StringCalculatorTest {
     private Object[][] parametersForTestingNonStandardInput() {
         return new Object[][]{
                 {"", 0},
-                {"1", 1}
+                {"1", 1},
+                {"1,2", 3},
+                {"1,2,3", 6},
+                {"1,2,3,5",11},
+                {"1\n5", 6},
+                {"1\n5,1,6", 13}
         };
     }
 
@@ -56,6 +62,4 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(expectedOutput);
     }
-
-
 }
