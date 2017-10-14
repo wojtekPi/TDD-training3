@@ -19,4 +19,26 @@ public class StringCalculatorTest {
     public void shouldCreateObject() throws Exception {
         assertThat(testedObject).isNotNull();
     }
+
+    @Test
+    public void shouldReturnZeroWhenEmptyStringPassed() {
+        int result = testedObject.Add("");
+
+        assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    public void shouldReturnZeroWhenZeroIsPassed() {
+        int result = testedObject.Add("0");
+
+        assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    public void shouldReturnOneWhenOneIsPassed() {
+        int result = testedObject.Add("1");
+
+        assertThat(result).isEqualTo(1);
+    }
+
 }
