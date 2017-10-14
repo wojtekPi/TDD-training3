@@ -30,11 +30,20 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(0);
     }
+
+    @Test
+    @Parameters({"0,0", "1,1", ",0"})
+    public void shouldReturnCorrectValueWhenOneNumberPassed(String input,
+                                                            int expectedOutput) {
+        int result = testedObject.Add(input);
+
+        assertThat(result).isEqualTo(expectedOutput);
+    }
+
     private Object[][] parametersForTestingNonStandardInput() {
         return new Object[][]{
-                {"1",1},
-                {"2",2},
-                {"1,1,31,1,1,41",76},
+                {"", 0},
+                {"1", 1}
         };
     }
 
@@ -48,8 +57,5 @@ public class StringCalculatorTest {
         assertThat(result).isEqualTo(expectedOutput);
     }
 
-    @Test(expected = NumberFormatException.class)
-    public void shouldThrowNumberFormatExceptionWhenParameterIsStupid() throws Exception {
-        testedObject.Add("A");
-    }
+
 }
