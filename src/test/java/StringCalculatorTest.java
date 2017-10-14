@@ -35,6 +35,7 @@ public class StringCalculatorTest {
                 {"1",1},
                 {"2",2},
                 {"1,1,31,1,1,41",76},
+                {"1,3\n",4}
         };
     }
 

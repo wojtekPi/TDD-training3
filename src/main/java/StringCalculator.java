@@ -5,7 +5,7 @@ public class StringCalculator {
     public static final String EMPTY_STRING = "";
 
     public int Add(String numbers) {
-        String[] arrayOfNumbers = numbers.split(",");
+        String[] arrayOfNumbers = numbers.split("[,\n]");
         if (isEmpty(numbers)) {
             return 0;
         }
