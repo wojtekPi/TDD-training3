@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="TDD-training3" />
+        <module name="java.krk5" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="TDD-training3" target="1.8" />
+      <module name="java.krk5" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

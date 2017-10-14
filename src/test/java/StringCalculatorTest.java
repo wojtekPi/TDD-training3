@@ -14,6 +14,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JUnitParamsRunner.class)
 public class StringCalculatorTest {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     private StringCalculator testedObject;
 
     @Rule
@@ -34,6 +37,12 @@ public class StringCalculatorTest {
         int result = testedObject.Add("");
 
         assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    public void shouldReturnThreeWhenOneAndTwoPassed() {
+        int result = testedObject.Add("1,2");
+        assertThat(result).isEqualTo(3);
     }
 
     @Test
@@ -79,7 +88,6 @@ public class StringCalculatorTest {
         testedObject.Add("a");
         //throw new NumberFormatException();
     }
-
-
-
+        testedObject.Add("a");
+    }
 }

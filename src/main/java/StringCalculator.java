@@ -28,6 +28,7 @@ public class StringCalculator {
         if(anyLetter.chars().anyMatch(Character::isLetter))
             return true;
         else return false;
+
     }
 
     private boolean isEmpty(String numbers) {
