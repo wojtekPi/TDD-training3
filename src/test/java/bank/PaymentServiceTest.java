@@ -28,4 +28,13 @@ public class PaymentServiceTest {
         assertThat(accountTo.getBalance()).isEqualTo(3);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionWhenNotEnoughMoneyOnAccount(){
+        Account accountFrom = new Account(1, 10);
+        Account accountTo = new Account(2, 0);
+
+        testedObject.transferMoney(accountFrom, accountTo, 3);
+
+    }
+
 }
