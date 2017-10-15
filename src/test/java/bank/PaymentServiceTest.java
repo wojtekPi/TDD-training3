@@ -33,7 +33,7 @@ public class PaymentServiceTest {
         Account accountFrom = new Account(1, 10);
         Account accountTo = new Account(2, 0);
 
-        testedObject.transferMoney(accountFrom, accountTo, 3);
+        testedObject.transferMoney(accountFrom, accountTo, 11);
 
     }
 
