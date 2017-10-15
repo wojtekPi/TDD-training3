@@ -13,8 +13,13 @@ public class PaymentService {
     public void transferMoney(Account accountFrom, Account accountTo, Instrument amountToTransfer) {
         checkIfCurrencyIsValid(accountFrom, accountTo, amountToTransfer);
         checkIfAccountBalanceIsValid(accountFrom, amountToTransfer.getAmount());
+        Instrument exchangedAmountToTransfer = amountToTransfer;
+        if (accountTo.getBalance().getCurrency()!=amountToTransfer.getCurrency()){
+            ExchangeService exchangeService = exchangeServiceMock;
+            exchangedAmountToTransfer = exchangeService.convertInstrument(amountToTransfer, accountTo.getBalance().getCurrency());
+        }
         accountFrom.withdraw(amountToTransfer.getAmount());
-        accountTo.deposit(amountToTransfer.getAmount());
+        accountTo.deposit(exchangedAmountToTransfer.getAmount());
 
     }
 
@@ -25,7 +30,7 @@ public class PaymentService {
     }
 
     private void checkIfCurrencyIsValid(Account accountFrom, Account accountTo, Instrument instrument) {
-        if (accountFrom.getBalance().getCurrency() != accountTo.getBalance().getCurrency() || accountFrom.getBalance().getCurrency() != instrument.getCurrency())
+        if ( accountFrom.getBalance().getCurrency() != instrument.getCurrency())
             throw new IllegalArgumentException();
     }
 }
