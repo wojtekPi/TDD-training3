@@ -41,7 +41,7 @@ public class PaymentServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenBalanceIs() throws Exception {
+    public void shouldThrowIllegalArgumentExceptionWhenBalanceIsNotEnough() throws Exception {
         Account accountFrom = new Account(1, Currency.USD, 100);
         Account accountTo = new Account(2, Currency.USD, 0);
         testedObject.transferMoney(accountFrom, accountTo, new Instrument(1000, Currency.USD));
@@ -93,6 +93,7 @@ public class PaymentServiceTest {
         Account accountTo = new Account(2, Currency.EUR, 0);
 
         Instrument amountToTransfer = new Instrument(40, Currency.USD);
+
         when(exchangeServiceMock.convertInstrument(amountToTransfer, Currency.EUR))
                 .thenReturn(new Instrument(35, Currency.EUR));
 
