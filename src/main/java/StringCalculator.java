@@ -1,32 +1,39 @@
+import java.util.StringTokenizer;
+
 public class StringCalculator {
 
     public static final String EMPTY_STRING = "";
 
-    public int Add(String numbers) {
+    public int Add(String numbers)  {
         if (isEmpty(numbers)) {
             return 0;
         }
-        try {
-            if (numbers.length() != 1) {
+        int result = 0;
 
-                return calculation(numbers);
-            } else
-                return Integer.valueOf(numbers);
-        } catch (NumberFormatException exception) {
-            throw new NumberFormatException("Only number and commas are allowed");
+        if(checkIfAnyLettersContain(numbers))
+            throw new NumberFormatException("Not allowed");
+
+
+
+        String[] tabString = numbers.split("[//\n,;]");
+
+        for(int i = 0; i < tabString.length; i++) {
+            if(!tabString[i].isEmpty())
+                result += Integer.valueOf(tabString[i]);
+
         }
+        return result;
     }
 
-    private int calculation(String numbers) {
-        String[] eachNumber = numbers.split(",");
-        int sum = 0;
-        for (int i = 0; i < eachNumber.length; i++) {
-            sum += Integer.valueOf(eachNumber[i]);
-        }
-        return sum;
+    private boolean checkIfAnyLettersContain(String anyLetter) {
+        if(anyLetter.chars().anyMatch(Character::isLetter))
+            return true;
+        else return false;
+
     }
 
     private boolean isEmpty(String numbers) {
         return EMPTY_STRING.equals(numbers);
     }
+
 }
