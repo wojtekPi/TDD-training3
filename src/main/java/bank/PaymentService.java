@@ -5,7 +5,7 @@ package bank;
  */
 public class PaymentService {
     public void transferMoney(Account accountFrom, Account accountTo, Instrument amountToTransfer) {
-        checkIfCurrencyIsValid(accountFrom,accountTo,amountToTransfer);
+        checkIfCurrencyIsValid(accountFrom, accountTo, amountToTransfer);
         checkIfAccountBalanceIsValid(accountFrom, amountToTransfer.getAmount());
         accountFrom.withdraw(amountToTransfer.getAmount());
         accountTo.deposit(amountToTransfer.getAmount());
@@ -18,8 +18,8 @@ public class PaymentService {
         }
     }
 
-    private void checkIfCurrencyIsValid(Account accountFrom,Account accountTo, Instrument instrument){
-        if (accountFrom.getBalance().getCurrency()!=accountTo.getBalance().getCurrency()|| accountFrom.getBalance().getCurrency()!= instrument.getCurrency())
+    private void checkIfCurrencyIsValid(Account accountFrom, Account accountTo, Instrument instrument) {
+        if (accountFrom.getBalance().getCurrency() != accountTo.getBalance().getCurrency() || accountFrom.getBalance().getCurrency() != instrument.getCurrency())
             throw new IllegalArgumentException();
     }
 }
