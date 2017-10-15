@@ -4,6 +4,12 @@ package bank;
  * Tdd training on 15.10.17.
  */
 public class PaymentService {
+    private final ExchangeService exchangeServiceMock;
+
+    public PaymentService(ExchangeService exchangeServiceMock) {
+        this.exchangeServiceMock = exchangeServiceMock;
+    }
+
     public void transferMoney(Account accountFrom, Account accountTo, Instrument amountToTransfer) {
         checkIfCurrencyIsValid(accountFrom, accountTo, amountToTransfer);
         checkIfAccountBalanceIsValid(accountFrom, amountToTransfer.getAmount());

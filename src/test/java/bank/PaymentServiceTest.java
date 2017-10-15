@@ -2,11 +2,16 @@ package bank;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 /**
  * Tdd training on 15.10.17.
@@ -16,10 +21,12 @@ public class PaymentServiceTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
     private PaymentService testedObject;
+    private ExchangeService exchangeServiceMock;
 
     @Before
     public void setUp() throws Exception {
-        testedObject = new PaymentService();
+        exchangeServiceMock = mock(ExchangeService.class);
+        testedObject = new PaymentService(exchangeServiceMock);
     }
 
     @Test
@@ -73,18 +80,28 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void shouldThrowExeptionIsCurrencyIsDifferent() throws Exception {
-        Account accountFrom = new Account(1, Currency.USD, 100);
-        Account accountTo = new Account(2, Currency.PLN, 0);
-        thrown.expect(IllegalArgumentException.class);
-        testedObject.transferMoney(accountFrom, accountTo, new Instrument(50, Currency.USD));
-    }
-
-    @Test
     public void shouldThrowExeptionWhenAmmountIsInDifferentCurrency() throws Exception {
         Account accountFrom = new Account(1, Currency.USD, 100);
         Account accountTo = new Account(2, Currency.USD, 0);
         thrown.expect(IllegalArgumentException.class);
         testedObject.transferMoney(accountFrom, accountTo, new Instrument(50, Currency.PLN));
+    }
+
+    @Test
+    public void shouldCallExchangeService() throws Exception {
+        Account accountFrom = new Account(1, Currency.USD, 100);
+        Account accountTo = new Account(2, Currency.EUR, 0);
+
+        Instrument amountToTransfer = new Instrument(40, Currency.USD);
+        when(exchangeServiceMock.convertInstrument(amountToTransfer, Currency.EUR))
+                .thenReturn(new Instrument(35, Currency.EUR));
+
+        testedObject.transferMoney(accountFrom, accountTo, amountToTransfer);
+
+        Mockito.verify(exchangeServiceMock, times(1)).convertInstrument(amountToTransfer,Currency.EUR);
+        assertThat(accountTo.getBalance().getAmount()).isEqualTo(35);
+        assertThat(accountTo.getBalance().getCurrency()).isEqualTo(Currency.EUR);
+        assertThat(accountFrom.getBalance().getAmount()).isEqualTo(60);
+        assertThat(accountFrom.getBalance().getCurrency()).isEqualTo(Currency.USD);
     }
 }
