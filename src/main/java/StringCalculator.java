@@ -2,28 +2,20 @@ public class StringCalculator {
 
     public static final String EMPTY_STRING = "";
 
-    public int Add(String numbers) {
+    public int Add(String numbers) throws NumberFormatException {
+
+        int result = 0;
         if (isEmpty(numbers)) {
             return 0;
         }
         try {
-            if (numbers.length() != 1) {
-
-                return calculation(numbers);
-            } else
-                return Integer.valueOf(numbers);
+            String[] arrayOfNumbers = numbers.split("[,\\n]");
+            for (int i = 0; i < arrayOfNumbers.length; i++)
+                result += Integer.valueOf(arrayOfNumbers[i]);
         } catch (NumberFormatException exception) {
-            throw new NumberFormatException("Only number and commas are allowed");
+            throw new NumberFormatException("Only numbers with commas are allowed!");
         }
-    }
-
-    private int calculation(String numbers) {
-        String[] eachNumber = numbers.split(",");
-        int sum = 0;
-        for (int i = 0; i < eachNumber.length; i++) {
-            sum += Integer.valueOf(eachNumber[i]);
-        }
-        return sum;
+        return result;
     }
 
     private boolean isEmpty(String numbers) {

@@ -1,3 +1,4 @@
+import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -19,6 +20,9 @@ public class StringCalculatorTest {
 
     private StringCalculator testedObject;
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Before
     public void setUp() throws Exception {
         testedObject = new StringCalculator();
@@ -37,13 +41,7 @@ public class StringCalculatorTest {
     }
 
     @Test
-    public void shouldReturnThreeWhenOneAndTwoPassed() {
-        int result = testedObject.Add("1,2");
-        assertThat(result).isEqualTo(3);
-    }
-
-    @Test
-    @Parameters({"0,0", "1,1", ",0"})
+    @Parameters({"0, 0", "1, 1", ", 0"})
     public void shouldReturnCorrectValueWhenOneNumberPassed(String input,
                                                             int expectedOutput) {
         int result = testedObject.Add(input);
@@ -55,10 +53,11 @@ public class StringCalculatorTest {
         return new Object[][]{
                 {"", 0},
                 {"1", 1},
-                {"1,2",3},
-                {"5,6",11},
-                {"5,6,7" , 18},
-                {"1,2,3,4",10}
+                {"1,2", 3},
+                {"1,3,4,1", 9},
+                {"23,14,0,1", 38},
+                {"1\n2,3", 6}
+
         };
     }
 
@@ -74,13 +73,15 @@ public class StringCalculatorTest {
 
     @Test(expected = NumberFormatException.class)
     public void shouldThrowExceptionWhenIncorrectFormat(){
+
         testedObject.Add("a");
+
     }
 
     @Test
-    public void shouldExceptionContainCorrectMessage() {
+    public void shouldThrowCorrectExceptionMessageWhenIncorrectFormat(){
         thrown.expect(NumberFormatException.class);
-        thrown.expectMessage("Only number and commas are allowed");
+        thrown.expectMessage("Only numbers with commas are allowed!");
 
         testedObject.Add("a");
     }
