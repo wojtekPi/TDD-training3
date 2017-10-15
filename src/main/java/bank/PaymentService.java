@@ -11,10 +11,10 @@ public class PaymentService {
     }
 
     public void transferMoney(Account accountFrom, Account accountTo, Instrument amountToTransfer) {
-        checkIfCurrencyIsValid(accountFrom, accountTo, amountToTransfer);
-        checkIfAccountBalanceIsValid(accountFrom, amountToTransfer.getAmount());
+        Instrument validMoneyToTransfer = convertCurrency(accountFrom, accountTo, amountToTransfer);
+        checkIfAccountBalanceIsValid(accountFrom, validMoneyToTransfer.getAmount());
         accountFrom.withdraw(amountToTransfer.getAmount());
-        accountTo.deposit(amountToTransfer.getAmount());
+        accountTo.deposit(validMoneyToTransfer.getAmount());
 
     }
 
@@ -24,8 +24,18 @@ public class PaymentService {
         }
     }
 
-    private void checkIfCurrencyIsValid(Account accountFrom, Account accountTo, Instrument instrument) {
-        if (accountFrom.getBalance().getCurrency() != accountTo.getBalance().getCurrency() || accountFrom.getBalance().getCurrency() != instrument.getCurrency())
-            throw new IllegalArgumentException();
+    private Instrument convertCurrency(Account accountFrom, Account accountTo, Instrument instrument) {
+        Currency fromCurr = accountFrom.getBalance().getCurrency();
+        Currency toCurr = accountTo.getBalance().getCurrency();
+        Currency amountCurr = instrument.getCurrency();
+        if (fromCurr != amountCurr) throw new IllegalArgumentException();
+        else if (amountCurr == toCurr) return instrument;
+        else {   // fromCurr == amountCurr && amountCurr != toCurr
+            return moneyExchange(instrument, accountTo.getBalance().getCurrency());
+        }
+    }
+
+    private Instrument moneyExchange(Instrument instrument, Currency currency) {
+        return exchangeServiceMock.convertInstrument(instrument, currency);
     }
 }
