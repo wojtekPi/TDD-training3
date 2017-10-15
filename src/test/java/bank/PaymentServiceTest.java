@@ -24,51 +24,65 @@ public class PaymentServiceTest {
 
     @Test
     public void shouldTransferMoneyWhenBalanceOnFirstAccountHasEnoughMoney() {
-        Account accountFrom = new Account(1, 10);
-        Account accountTo = new Account(2, 0);
+        Instrument instrument = new Instrument(Currencies.EU, 3);
+        Account accountFrom = new Account(1, 10, new Instrument(Currencies.EU));
+        Account accountTo = new Account(2, 0, new Instrument(Currencies.EU));
 
-        testedObject.transferMoney(accountFrom, accountTo, 3);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
 
         assertThat(accountFrom.getBalance()).isEqualTo(7);
         assertThat(accountTo.getBalance()).isEqualTo(3);
     }
 
+    @Test
+    public void shouldThrowNewIllegalArgumentExceptionWhenCurrenciesAreDifferent() throws Exception {
+        Instrument instrument = new Instrument(Currencies.EU, 3);
+        Account accountFrom = new Account(1, 10, new Instrument(Currencies.GBP));
+        Account accountTo = new Account(2, 0, new Instrument(Currencies.EU));
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> testedObject.transferMoney(accountFrom, accountTo,
+                instrument)).withMessage("Wrong currency!");
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenBalanceIs() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
-        testedObject.transferMoney(accountFrom, accountTo, 1000);
+            Instrument instrument = new Instrument(Currencies.EU, 520);
+            Account accountFrom = new Account(1, 10, new Instrument(Currencies.EU));
+            Account accountTo = new Account(2, 0, new Instrument(Currencies.EU));
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
     }
 
     @Test
     public void shouldNotChangeBalanceAfterExceptionIsThrown() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(1, 0);
+        Instrument instrument = new Instrument(Currencies.EU, 520);
+        Account accountFrom = new Account(1, 10, new Instrument(Currencies.EU));
+        Account accountTo = new Account(2, 0, new Instrument(Currencies.EU));
         try {
-            testedObject.transferMoney(accountFrom, accountTo, 1000);
+            testedObject.transferMoney(accountFrom, accountTo, instrument);
         } catch (IllegalArgumentException ex) {
-            assertThat(accountFrom.getBalance()).isEqualTo(100);
+            assertThat(accountFrom.getBalance()).isEqualTo(10);
             assertThat(accountTo.getBalance()).isEqualTo(0);
         }
     }
 
     @Test
     public void shouldNotChangeBalanceAfterExceptionIsThrownUsingAssertJ() {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
+        Instrument instrument = new Instrument(Currencies.EU, 520);
+        Account accountFrom = new Account(1, 10, new Instrument(Currencies.EU));
+        Account accountTo = new Account(2, 0, new Instrument(Currencies.EU));
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> testedObject.transferMoney(accountFrom, accountTo, 1000))
+                .isThrownBy(() -> testedObject.transferMoney(accountFrom, accountTo, instrument))
                 .withMessage("I'm very sorry but you don't have enough money...");
-        assertThat(accountFrom.getBalance()).isEqualTo(100);
+        assertThat(accountFrom.getBalance()).isEqualTo(10);
         assertThat(accountTo.getBalance()).isEqualTo(0);
     }
 
     @Test
     public void shouldReturnCorrectExceptionMessage() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
+        Instrument instrument = new Instrument(Currencies.EU, 520);
+        Account accountFrom = new Account(1, 10, new Instrument(Currencies.EU));
+        Account accountTo = new Account(2, 0, new Instrument(Currencies.EU));
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("I'm very sorry but you don't have enough money...");
-        testedObject.transferMoney(accountFrom, accountTo, 1000);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
     }
 }

@@ -6,10 +6,12 @@ package bank;
 public class Account {
     private int id;
     private int balance;
+    private Instrument instrument;
 
-    public Account(int id, int balance) {
+    public Account(int id, int balance,Instrument instrument) {
         this.id = id;
         this.balance = balance;
+        this.instrument=instrument;
     }
 
     public int getBalance() {
@@ -17,10 +19,14 @@ public class Account {
     }
 
     public void withdraw(int amount) {
-        balance -= amount;
+        balance-= amount;
     }
 
     public void deposit(int amount) {
         balance += amount;
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
     }
 }
