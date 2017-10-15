@@ -24,10 +24,13 @@ public class PaymentServiceTest {
 
     @Test
     public void shouldTransferMoneyWhenBalanceOnFirstAccountHasEnoughMoney() {
-        Account accountFrom = new Account(1, 10);
-        Account accountTo = new Account(2, 0);
+        Instrument instrumentFrom  = new Instrument (Currency.PLN, 10);
+        Instrument instrumentTo  = new Instrument (Currency.PLN, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);;
+        Instrument instrument = new Instrument(Currency.PLN, 3);
 
-        testedObject.transferMoney(accountFrom, accountTo, 3);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
 
         assertThat(accountFrom.getBalance()).isEqualTo(7);
         assertThat(accountTo.getBalance()).isEqualTo(3);
@@ -35,17 +38,23 @@ public class PaymentServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenBalanceIs() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
-        testedObject.transferMoney(accountFrom, accountTo, 1000);
+        Instrument instrument = new Instrument(Currency.PLN, 1000);
+        Instrument instrumentFrom  = new Instrument (Currency.PLN, 100);
+        Instrument instrumentTo  = new Instrument (Currency.PLN, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
     }
 
     @Test
     public void shouldNotChangeBalanceAfterExceptionIsThrown() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(1, 0);
+        Instrument instrumentFrom  = new Instrument (Currency.PLN, 100);
+        Instrument instrumentTo  = new Instrument (Currency.PLN, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);
+        Instrument instrument = new Instrument(Currency.PLN, 1000);
         try {
-            testedObject.transferMoney(accountFrom, accountTo, 1000);
+            testedObject.transferMoney(accountFrom, accountTo, instrument);
         } catch (IllegalArgumentException ex) {
             assertThat(accountFrom.getBalance()).isEqualTo(100);
             assertThat(accountTo.getBalance()).isEqualTo(0);
@@ -54,10 +63,13 @@ public class PaymentServiceTest {
 
     @Test
     public void shouldNotChangeBalanceAfterExceptionIsThrownUsingAssertJ() {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
+        Instrument instrumentFrom  = new Instrument (Currency.PLN, 100);
+        Instrument instrumentTo  = new Instrument (Currency.PLN, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);
+        Instrument instrument = new Instrument(Currency.PLN, 1000);
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> testedObject.transferMoney(accountFrom, accountTo, 1000))
+                .isThrownBy(() -> testedObject.transferMoney(accountFrom, accountTo, instrument))
                 .withMessage("I'm very sorry but you don't have enough money...");
         assertThat(accountFrom.getBalance()).isEqualTo(100);
         assertThat(accountTo.getBalance()).isEqualTo(0);
@@ -65,10 +77,43 @@ public class PaymentServiceTest {
 
     @Test
     public void shouldReturnCorrectExceptionMessage() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
+        Instrument instrumentFrom  = new Instrument (Currency.PLN, 100);
+        Instrument instrumentTo  = new Instrument (Currency.PLN, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);
+        Instrument instrument = new Instrument(Currency.PLN, 1000);
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("I'm very sorry but you don't have enough money...");
-        testedObject.transferMoney(accountFrom, accountTo, 1000);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCurrencyOfAccountToDoesNotMatch() throws Exception {
+        Instrument instrument = new Instrument(Currency.PLN, 100);
+        Instrument instrumentFrom  = new Instrument (Currency.PLN, 100);
+        Instrument instrumentTo  = new Instrument (Currency.USD, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCurrencyOfAccountFromDoesNotMatch() throws Exception {
+        Instrument instrument = new Instrument(Currency.USD, 100);
+        Instrument instrumentFrom  = new Instrument (Currency.PLN, 100);
+        Instrument instrumentTo  = new Instrument (Currency.USD, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCurrencyOfInstrumentDoesNotMatch() throws Exception {
+        Instrument instrument = new Instrument(Currency.PLN, 100);
+        Instrument instrumentFrom  = new Instrument (Currency.GBP, 100);
+        Instrument instrumentTo  = new Instrument (Currency.GBP, 0);
+        Account accountFrom = new Account(1, instrumentFrom);
+        Account accountTo = new Account(2, instrumentTo);
+        testedObject.transferMoney(accountFrom, accountTo, instrument);
     }
 }

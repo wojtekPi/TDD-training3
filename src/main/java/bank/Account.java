@@ -5,22 +5,26 @@ package bank;
  */
 public class Account {
     private int id;
-    private int balance;
+    private Instrument instrument = new Instrument(Currency.PLN, 0);
 
-    public Account(int id, int balance) {
+    public Account(int id, Instrument instrument) {
         this.id = id;
-        this.balance = balance;
+        this.instrument = instrument;
     }
 
     public int getBalance() {
-        return balance;
+        return instrument.amount;
     }
 
     public void withdraw(int amount) {
-        balance -= amount;
+        instrument.amount -= amount;
     }
 
     public void deposit(int amount) {
-        balance += amount;
+        instrument.amount += amount;
+    }
+
+    public Currency getCurrency() {
+        return instrument.currency;
     }
 }
