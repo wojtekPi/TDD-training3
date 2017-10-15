@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="java.krk5" />
+        <module name="TDD-Bank-Training" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="java.krk5" target="1.8" />
+      <module name="TDD-Bank-Training" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
