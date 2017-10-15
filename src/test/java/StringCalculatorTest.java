@@ -67,6 +67,7 @@ public class StringCalculatorTest {
     public void shouldReturnCorrectValueWhenNonStandardInputPassed(
             String input, int expectedOutput
     ) {
+
         int result = testedObject.Add(input);
 
         assertThat(result).isEqualTo(expectedOutput);
