@@ -7,7 +7,6 @@ public class PaymentService {
     public void transferMoney(Account accountFrom,
                               Account accountTo,
                               int amountToTransfer) throws IllegalArgumentException {
-        System.out.println((accountFrom.getBalance() - amountToTransfer));
         if ((accountFrom.getBalance()-amountToTransfer)>-501) {
                 accountFrom.withdraw(amountToTransfer);
                 accountTo.deposit(amountToTransfer);
