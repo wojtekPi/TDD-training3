@@ -1,5 +1,6 @@
 package bank;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,10 +13,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  */
 public class PaymentServiceTest {
 
-    private PaymentService testedObject;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+    private PaymentService testedObject;
 
     @Before
     public void setUp() throws Exception {
@@ -35,30 +35,40 @@ public class PaymentServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenBalanceIs() throws Exception {
-        Account accountFrom = new Account(1,100);
-        Account accountTo = new Account(1,0);
-        testedObject.transferMoney(accountFrom,accountTo,1000);
+        Account accountFrom = new Account(1, 100);
+        Account accountTo = new Account(2, 0);
+        testedObject.transferMoney(accountFrom, accountTo, 1000);
     }
 
     @Test
     public void shouldNotChangeBalanceAfterExceptionIsThrown() throws Exception {
-        Account accountFrom = new Account(1,100);
-        Account accountTo = new Account(1,0);
+        Account accountFrom = new Account(1, 100);
+        Account accountTo = new Account(1, 0);
         try {
-            testedObject.transferMoney(accountFrom,accountTo,1000);
-        }catch (IllegalArgumentException ex){
+            testedObject.transferMoney(accountFrom, accountTo, 1000);
+        } catch (IllegalArgumentException ex) {
             assertThat(accountFrom.getBalance()).isEqualTo(100);
             assertThat(accountTo.getBalance()).isEqualTo(0);
         }
     }
 
     @Test
+    public void shouldNotChangeBalanceAfterExceptionIsThrownUsingAssertJ() {
+        Account accountFrom = new Account(1, 100);
+        Account accountTo = new Account(2, 0);
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> testedObject.transferMoney(accountFrom, accountTo, 1000))
+                .withMessage("I'm very sorry but you don't have enough money...");
+        assertThat(accountFrom.getBalance()).isEqualTo(100);
+        assertThat(accountTo.getBalance()).isEqualTo(0);
+    }
+
+    @Test
     public void shouldReturnCorrectExceptionMessage() throws Exception {
-        Account accountFrom = new Account(1,100);
-        Account accountTo = new Account(1,0);
+        Account accountFrom = new Account(1, 100);
+        Account accountTo = new Account(2, 0);
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("I'm very sorry but you don't have enough money...");
-        testedObject.transferMoney(accountFrom,accountTo,1000);
-
+        testedObject.transferMoney(accountFrom, accountTo, 1000);
     }
 }

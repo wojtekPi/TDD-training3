@@ -12,8 +12,8 @@ public class PaymentService {
     }
 
     private void checkIfAccountBalanceIsValid(Account accountFrom, int amountToTransfer) {
-        if (accountFrom.getBalance() - amountToTransfer < -500){
-            throw new IllegalArgumentException ("I'm very sorry but you don't have enough money...");
+        if (accountFrom.getBalance() - amountToTransfer < -500) {
+            throw new IllegalArgumentException("I'm very sorry but you don't have enough money...");
         }
     }
 }
