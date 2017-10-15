@@ -6,11 +6,18 @@ package bank;
 public class PaymentService {
     public void transferMoney(Account accountFrom,
                               Account accountTo,
-                              int amountToTransfer) throws IllegalArgumentException {
+                              int amountToTransfer) {
+        if (isTransferPossible(accountFrom,amountToTransfer)) {
+            accountFrom.withdraw(amountToTransfer);
+            accountTo.deposit(amountToTransfer);
+        }
+    }
+
+    public boolean isTransferPossible(Account accountFrom, int amountToTransfer) throws IllegalArgumentException {
         if ((accountFrom.getBalance()-amountToTransfer)>-501) {
-                accountFrom.withdraw(amountToTransfer);
-                accountTo.deposit(amountToTransfer);
-            } else throw new IllegalArgumentException("You no understand me, " +
+            return true;
+        } else throw new IllegalArgumentException("You no understand me, " +
                 "your balance is exceeded to much beyond -500");
     }
+
 }
