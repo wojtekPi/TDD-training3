@@ -2,30 +2,38 @@ package bank;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 /**
  * Tdd training on 15.10.17.
  */
+//@RunWith(MockitoJUnitRunner.class) //Enabling initialization mocks annotated by @Mock (2)
 public class PaymentServiceTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule(); //Enabling initialization mocks annotated by @Mock (3) recommended (avaliable from version 2)
+
     private PaymentService testedObject;
+
+    @Mock
     private ExchangeService exchangeServiceMock;
 
     @Before
     public void setUp() throws Exception {
-        exchangeServiceMock = mock(ExchangeService.class);
+//        MockitoAnnotations.initMocks(this);  //Enabling initialization mocks annotated by @Mock (1)
+//        exchangeServiceMock = mock(ExchangeService.class);  //creating Mock
         testedObject = new PaymentService(exchangeServiceMock);
     }
 
@@ -98,7 +106,7 @@ public class PaymentServiceTest {
 
         testedObject.transferMoney(accountFrom, accountTo, amountToTransfer);
 
-        Mockito.verify(exchangeServiceMock, times(1)).convertInstrument(amountToTransfer,Currency.EUR);
+        Mockito.verify(exchangeServiceMock, times(1)).convertInstrument(amountToTransfer, Currency.EUR);
         assertThat(accountTo.getBalance().getAmount()).isEqualTo(35);
         assertThat(accountTo.getBalance().getCurrency()).isEqualTo(Currency.EUR);
         assertThat(accountFrom.getBalance().getAmount()).isEqualTo(60);
