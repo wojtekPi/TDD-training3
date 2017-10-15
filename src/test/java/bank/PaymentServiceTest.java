@@ -24,51 +24,59 @@ public class PaymentServiceTest {
 
     @Test
     public void shouldTransferMoneyWhenBalanceOnFirstAccountHasEnoughMoney() {
-        Account accountFrom = new Account(1, 10);
-        Account accountTo = new Account(2, 0);
+        Account accountFrom = new Account(1,Currency.USD, 10);
+        Account accountTo = new Account(2,Currency.USD, 0);
 
         testedObject.transferMoney(accountFrom, accountTo, 3);
 
-        assertThat(accountFrom.getBalance()).isEqualTo(7);
-        assertThat(accountTo.getBalance()).isEqualTo(3);
+        assertThat(accountFrom.getBalance().getAmount()).isEqualTo(7);
+        assertThat(accountTo.getBalance().getAmount()).isEqualTo(3);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenBalanceIs() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
+        Account accountFrom = new Account(1,Currency.USD, 100);
+        Account accountTo = new Account(2,Currency.USD, 0);
         testedObject.transferMoney(accountFrom, accountTo, 1000);
     }
 
     @Test
     public void shouldNotChangeBalanceAfterExceptionIsThrown() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(1, 0);
+        Account accountFrom = new Account(1,Currency.USD, 100);
+        Account accountTo = new Account(1,Currency.USD, 0);
         try {
             testedObject.transferMoney(accountFrom, accountTo, 1000);
         } catch (IllegalArgumentException ex) {
-            assertThat(accountFrom.getBalance()).isEqualTo(100);
-            assertThat(accountTo.getBalance()).isEqualTo(0);
+            assertThat(accountFrom.getBalance().getAmount()).isEqualTo(100);
+            assertThat(accountTo.getBalance().getAmount()).isEqualTo(0);
         }
     }
 
     @Test
     public void shouldNotChangeBalanceAfterExceptionIsThrownUsingAssertJ() {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
+        Account accountFrom = new Account(1,Currency.USD, 100);
+        Account accountTo = new Account(2,Currency.USD, 0);
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> testedObject.transferMoney(accountFrom, accountTo, 1000))
                 .withMessage("I'm very sorry but you don't have enough money...");
-        assertThat(accountFrom.getBalance()).isEqualTo(100);
-        assertThat(accountTo.getBalance()).isEqualTo(0);
+        assertThat(accountFrom.getBalance().getAmount()).isEqualTo(100);
+        assertThat(accountTo.getBalance().getAmount()).isEqualTo(0);
     }
 
     @Test
     public void shouldReturnCorrectExceptionMessage() throws Exception {
-        Account accountFrom = new Account(1, 100);
-        Account accountTo = new Account(2, 0);
+        Account accountFrom = new Account(1,Currency.USD, 100);
+        Account accountTo = new Account(2,Currency.USD, 0);
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("I'm very sorry but you don't have enough money...");
         testedObject.transferMoney(accountFrom, accountTo, 1000);
+    }
+
+    @Test
+    public void shouldThrowExeptionIsCurrencyIsDifferent() throws Exception{
+        Account accountFrom = new Account(1,Currency.USD, 100);
+        Account accountTo = new Account(2,Currency.PLN, 0);
+        thrown.expect(IllegalArgumentException.class);
+        testedObject.transferMoney(accountFrom,accountTo,50);
     }
 }
